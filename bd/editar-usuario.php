@@ -8,14 +8,12 @@
     $emailNovo = $_POST["email"];
     $senhaNova = $_POST["senha"];
 
-    $newLine = [$nomeNovo, $emailNovo, $senhaNova];
-
+    // usuários recebe o arquivo em array
     $usuarios = getUsuarios();
 
+    //usuário antigo é trocado pelo novo, editado pelo form de edição
+    // usuário antigo é reconhecido devido a manipulação do "i"
     $usuarios[$position] = $nomeNovo . "," . $emailNovo . "," . $senhaNova;
-    
-    print_r($usuarios);
-    
 
     if(!isset($_POST["nome"])){
         $salvar = false;
@@ -33,31 +31,20 @@
         $salvar = false;
     }
 
+    //apaga o arquivo existente antes de refazê-lo, obedecendo a troca de usuários de mesmo "i".
     unlink("usuario.bd");
 
     if($salvar){
-
         foreach($usuarios as $usuario){
             
-
-            if($usuario == end($usuarios)){
-                $banco = fopen("usuario.bd", "a");
-                
-                fwrite($banco, trim($usuario));
-                
-                fclose($banco);    
-                
-            } else {
-                $banco = fopen("usuario.bd", "a");
-
-                fwrite($banco, trim($usuario) . "\n");
-                fclose($banco);
-            }
-            
+            $banco = fopen("usuario.bd", "a");
+            fwrite($banco, trim($usuario) . "\n");
+            fclose($banco);
+        
         }
 
     }
 
-    header("location: ../index.php");    
+    header("location: ../index.php");
 
 ?>

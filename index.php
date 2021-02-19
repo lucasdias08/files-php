@@ -13,37 +13,39 @@
             <form id="form-cad" action="bd/salvar-usuario.php" method="post">
                 <div>
                     <label for="txtNome">Nome</label>
-                    <input type="text" id="txtNome" name="nome">
+                    <input type="text" id="txtNome" name="nome" required>
                 </div>
                 <div>
                     <label for="txtEmail">e-mail</label>
-                    <input type="email" id="txtEmail" name="email">
+                    <input type="email" id="txtEmail" name="email" required>
                 </div>
                 <div>
                     <label for="txtSenha">Senha</label>
-                    <input type="password" id="txtSenha" name="senha">
+                    <input type="password" id="txtSenha" name="senha" required>
                 </div>
                 <div>
-                    <input type="submit" value="cadastrar">
+                    <input type="submit" id="bttCad" value="cadastrar" onmouseover='document.getElementById("bttCad").style.cursor = "pointer";'>
                 </div>
             </form>
 
             <form id="form-edit" class="form-edit-no-visible" action="bd/editar-usuario.php" method="post">
                 <div>
                     <label for="txtNome2">Nome</label>
-                    <input type="text" id="txtNome2" name="nome">
+                    <input type="text" id="txtNome2" name="nome" required>
                 </div>
                 <div>
                     <label for="txtEmail2">e-mail</label>
-                    <input type="email" id="txtEmail2" name="email">
+                    <input type="email" id="txtEmail2" name="email" required>
                 </div>
                 <div>
                     <label for="txtSenha2">Senha</label>
-                    <input type="password" id="txtSenha2" name="senha">
+                    <input type="password" id="txtSenha2" name="senha" required>
                 </div>
                 <div id="container-btt">
-                    <button type="submit">Editar</button>
-                    <button>Cancelar</button>
+                    <button type="submit" id="bttEditar" onmouseover='document.getElementById("bttEditar").style.cursor = "pointer";'>Editar</button>
+                    <button id="bttCancel" onmouseover='document.getElementById("bttCancel").style.cursor = "pointer";'>Cancelar</button>
+                    
+                    <!-- achei necessário criar esse input "secreto"-->
                     <input type="hidden" id="txti" name="i">
                 </div>
             </form>
@@ -57,6 +59,7 @@
 
                     $usuarios = getUsuarios();
 
+                    // variável fundamental. Ela é inicializada e incrementada a medida que é renderizado um item
                     $i = 0;
                     foreach($usuarios as $usuario){
                     
@@ -66,7 +69,7 @@
                         echo $usuario;
 
                         echo "<img src='/img/mode_edit_outline-24px.svg' alt='edit-button' onclick='openEdition(" . $i . ")'>";
-                        echo "<img src='/img/delete_forever-24px.svg' alt='delete-button' onclick='closeEdition(" . $i . ")'>";
+                        echo "<a href='bd/deletar-usuario.php?id=". $i ."'><img src='/img/delete_forever-24px.svg' alt='delete-button' ></a>";
 
                         $i++;
                     }
@@ -83,39 +86,6 @@
         <p>Elaborado por @_lucasdias08</p>
         <p>Todos os direitos concedidos</p>
     </footer>
-    <script>
-
-        function openEdition(i){
-            //var idIt = document.getElementById(idItem);
-            
-            document.getElementById("form-edit").classList.remove("form-edit-no-visible");
-            document.getElementById("form-cad").classList.add("form-edit-no-visible");
-
-            //alert(document.getElementById("position-" + i).textContent);
-
-            var line = document.getElementById("position-" + i).textContent;
-            var arr = line.split(',');
-
-            //alert(arr[0]);
-
-            document.getElementById("txtNome2").value = arr[0];
-            document.getElementById("txtEmail2").value = arr[1];
-            document.getElementById("txtSenha2").value = arr[2];
-            document.getElementById("txti").value = i;
-
-            alert(document.getElementById("txti").value);
-        }
-
-        function closeEdition(){
-
-            //var idIt = document.getElementById(idItem);
-
-            document.getElementById("form-cad").classList.remove("form-edit-no-visible");
-            document.getElementById("form-cad").classList.add("form-edit-visible");
-
-            document.getElementById("form-edit").classList.remove("form-edit-visible");
-            document.getElementById("form-edit").classList.add("form-edit-no-visible");
-        }
-    </script>
+    <script src="./js/front-code.js"></script>
 </body>
 </html>
